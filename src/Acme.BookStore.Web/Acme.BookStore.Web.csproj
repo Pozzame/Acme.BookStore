@@ -75,4 +75,10 @@
     <PackageReference Include="Volo.Abp.Studio.Client.AspNetCore" Version="0.9.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

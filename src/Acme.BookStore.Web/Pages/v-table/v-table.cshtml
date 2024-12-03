@@ -1,0 +1,57 @@
+﻿@page
+@model Acme.BookStore.Web.Pages.v_table.v_tableModel
+@{
+
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.20/dist/vuetify.min.js"></script>
+    <script>
+        // const { createApp } = Vue
+        // const { createVuetify } = Vuetify
+        // const vuetify = createVuetify()
+        const app = Vue.createApp( {
+            template:`
+                <v-container>
+                    <v-table>
+                        <thead>
+                            <tr>
+                                <th class="text-left">
+                                    Name
+                                </th>
+                                <th class="text-left">
+                                    Surname
+                                </th>
+                                <th class="text-left">
+                                    Age
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in db">
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.surname }}</td>
+                                <td>{{ item.age }}</td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </v-container>
+            `,
+            data() {
+                return {
+                    db: []
+                }
+            },
+            methods: {
+                fetchData() {
+                    fetch('./data.json').then(response => response.json()).then(data => { this.db = data; });
+                }
+            },
+            mounted() {
+                this.fetchData();
+            }
+        });
+        app.use(Vuetify)
+        app.mount('#app')
+    </script>
+}

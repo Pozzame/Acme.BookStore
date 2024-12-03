@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Matteo",
+        "surname": "Bianchi",
+        "age": 43
+    },
+    {
+        "name": "Ciccio",
+        "surname": "Pasticcio",
+        "age": 33
+    },
+    {
+        "name": "Ciro",
+        "surname": "Puppo",
+        "age": 45
+    }
+]
