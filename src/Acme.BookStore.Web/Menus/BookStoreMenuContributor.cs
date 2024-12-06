@@ -91,6 +91,13 @@ public class BookStoreMenuContributor : IMenuContributor
                 ).RequirePermissions(BookStorePermissions.Authors.Default)
             )
         );
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                "vtable",
+                l["vtable"],
+                url: "/vtable"
+            )
+        );
 
         return Task.CompletedTask;
     }

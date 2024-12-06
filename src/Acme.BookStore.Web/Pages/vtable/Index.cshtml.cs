@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Acme.BookStore.Web.Pages.v_table
+namespace Acme.BookStore.Web.Pages.vtable
 {
-    public class v_tableModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

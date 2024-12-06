@@ -1,19 +1,19 @@
 ﻿@page
-@model Acme.BookStore.Web.Pages.v_table.v_tableModel
+@using Acme.BookStore.Web.Pages.vtable
+@model IndexModel
 @{
-
     <div id="app"></div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.20/dist/vuetify.min.js"></script>
     <script>
-        // const { createApp } = Vue
-        // const { createVuetify } = Vuetify
-        // const vuetify = createVuetify()
+        const { createApp } = Vue
+        const { createVuetify } = Vuetify
+        const vuetify = createVuetify()
         const app = Vue.createApp( {
             template:`
                 <v-container>
-                    <v-table>
+                    <v-data-table>
                         <thead>
                             <tr>
                                 <th class="text-left">
@@ -34,7 +34,7 @@
                                 <td>{{ item.age }}</td>
                             </tr>
                         </tbody>
-                    </v-table>
+                    </v-data-table>
                 </v-container>
             `,
             data() {
@@ -54,4 +54,4 @@
         app.use(Vuetify)
         app.mount('#app')
     </script>
-}
+} 
