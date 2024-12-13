@@ -11,11 +11,11 @@ import example from "../../Vue/example.vue";
 const app = createApp();
 
 const vuetify = createVuetify({
-	components: {
-		...components,
-	},
-	directives,
-	},
+	//components: {
+	//	...components,
+	//},
+	//directives:
+	//{}
 });
 
 app.use(vuetify);
