@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Acme.BookStore.Authors;
 using Acme.BookStore.Books;
+using Acme.BookStore.Dipendenti;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
@@ -14,19 +15,35 @@ public class BookStoreDataSeederContributor
     private readonly IRepository<Book, Guid> _bookRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly AuthorManager _authorManager;
+    private readonly IDipendenteRepository _dipendenteRepository;
+    private readonly DipendenteManager _dipendenteManager;
 
     public BookStoreDataSeederContributor(
         IRepository<Book, Guid> bookRepository,
         IAuthorRepository authorRepository,
-        AuthorManager authorManager)
+        AuthorManager authorManager,
+        IDipendenteRepository dipendenteRepository,
+        DipendenteManager dipendenteManager)
     {
         _bookRepository = bookRepository;
         _authorRepository = authorRepository;
         _authorManager = authorManager;
+        _dipendenteRepository = dipendenteRepository;
+        _dipendenteManager = dipendenteManager;
     }
 
     public async Task SeedAsync(DataSeedContext context)
     {
+        if (await _dipendenteRepository.GetCountAsync() < 1)
+        { 
+            var ciuccio = await _dipendenteRepository.InsertAsync(
+                await _dipendenteManager.CreateAsync(
+                    "Ciuccio Ciuccione",
+                    new DateTime(1992, 03, 11),
+                    "Sa assai di lavorare questo."
+                )
+            );
+        }
         if (await _bookRepository.GetCountAsync() > 0)
         {
             return;

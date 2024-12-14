@@ -6,6 +6,7 @@ using Acme.BookStore.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using static Acme.BookStore.Permissions.BookStorePermissions;
 
 namespace Acme.BookStore.Authors;
 

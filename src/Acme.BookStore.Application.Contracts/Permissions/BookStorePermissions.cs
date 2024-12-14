@@ -22,4 +22,11 @@ public static class BookStorePermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class Dipendenti
+    {
+        public const string Default = GroupName + ".Dipendenti";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }
