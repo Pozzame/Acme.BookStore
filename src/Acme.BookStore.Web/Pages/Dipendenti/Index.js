@@ -81,7 +81,7 @@
                 },
                 {
                     title: l('HourlyRate'),
-                    data: "hourlyrate"
+                    data: "hourlyRate"
                     //render: function (data) {
                     //    // Assumendo che `abp.localization.currentCulture.name` sia ad esempio "it-IT"
                     //    const formatter = new Intl.NumberFormat(abp.localization.currentCulture.name, {
@@ -91,7 +91,6 @@
 
                     //    return formatter.format(data);
                     //}
-
                 }
             ]
         })

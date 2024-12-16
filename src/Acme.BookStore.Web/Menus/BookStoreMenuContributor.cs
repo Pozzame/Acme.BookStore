@@ -58,29 +58,15 @@ public class BookStoreMenuContributor : IMenuContributor
         //Administration->Settings
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 7);
 
-        //context.Menu.AddItem(
-        //    new ApplicationMenuItem(
-        //        "BooksStore",
-        //        l["BookStore"],
-        //        icon: "fa fa-book"
-        //    ).AddItem(
-        //        new ApplicationMenuItem(
-        //            "BooksStore.Books",
-        //            l["Books"],
-        //            url: "/Books"
-        //        ).RequirePermissions(BookStorePermissions.Books.Default) // Check the permission!
-        //    )
-        //);
-
         context.Menu.AddItem(
             new ApplicationMenuItem(
                 "BooksStore",
-                l["Menu:BookStore"],
+                l["Gestore commesse"],
                 icon: "fa fa-book"
             ).AddItem(
                 new ApplicationMenuItem(
                     "BooksStore.Dipendenti",
-                    l["Menu:Dipendenti"],
+                    l["Dipendenti"],
                     url: "/Dipendenti"
                 ).RequirePermissions(BookStorePermissions.Dipendenti.Default)
             ).AddItem(
