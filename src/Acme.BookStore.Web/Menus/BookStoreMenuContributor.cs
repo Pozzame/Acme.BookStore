@@ -79,23 +79,16 @@ public class BookStoreMenuContributor : IMenuContributor
                 icon: "fa fa-book"
             ).AddItem(
                 new ApplicationMenuItem(
-                    "BooksStore.Books",
-                    l["Menu:Books"],
-                    url: "/Books"
-                ).RequirePermissions(BookStorePermissions.Books.Default)
-            ).AddItem( // ADDED THE NEW "AUTHORS" MENU ITEM UNDER THE "BOOK STORE" MENU
+                    "BooksStore.Dipendenti",
+                    l["Menu:Dipendenti"],
+                    url: "/Dipendenti"
+                ).RequirePermissions(BookStorePermissions.Dipendenti.Default)
+            ).AddItem(
                 new ApplicationMenuItem(
-                    "BooksStore.Authors",
-                    l["Menu:Authors"],
-                    url: "/Authors"
-                ).RequirePermissions(BookStorePermissions.Authors.Default)
-            )
-        );
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                "vtable",
-                l["vtable"],
-                url: "/vtable"
+                    "vtable",
+                    l["vtable"],
+                    url: "/vtable"
+                )
             )
         );
 

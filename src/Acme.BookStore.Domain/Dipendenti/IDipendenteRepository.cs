@@ -8,6 +8,7 @@ namespace Acme.BookStore.Dipendenti;
 public interface IDipendenteRepository : IRepository<Dipendente, Guid>
 {
     Task<Dipendente> FindByNameAsync(string name);
+    Task<Dipendente> FindBySurnameAsync(string surname);
 
     Task<List<Dipendente>> GetListAsync(
         int skipCount,

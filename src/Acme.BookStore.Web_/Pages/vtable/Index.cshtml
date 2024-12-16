@@ -1,0 +1,283 @@
+﻿@page
+@using Acme.BookStore.Web.Pages.vtable
+@model IndexModel
+
+@{
+
+    <!-- Definizione degli stili CSS -->
+    <style>
+        .pinkBG {
+            background-color: lightpink;
+        }
+
+        .mouseBox {
+            width: 300px;
+            height: 300px;
+            background-color: violet;
+        }
+
+        .impClass{
+            background-color: violet;
+        }
+    </style>
+
+
+    // Vue.js App
+    <div id="app">
+        <div v-bind:style="{ fontSize: size + 'px' }" v-bind:class="vueClass">
+            {{vueClass}}
+        </div>
+        <div v-bind:style="{ backgroundColor: 'hsl('+bgVal+',80%,80%)' }">
+            Notice the background color on this div tag.
+        </div>
+        <div v-bind:style="{ backgroundColor: isImportant ? 'lightcoral' : 'lightgray' }">
+            Conditional background color
+        </div>
+        <div v-bind:class="{ [vueClass]: isImportant }">
+            The class is set conditionally to change the background color
+        </div>
+        <p v-if="typewritersInStock>3">
+            In stock
+        </p>
+        <p v-else-if="typewritersInStock>0">
+            Very few left!
+        </p>
+        <p v-else>
+            Not in stock
+        </p>
+        <div>
+            <div v-if="text.includes('pizza')">
+                <p>The text includes the word 'pizza'</p>
+                <img src="https://thumb1.shutterstock.com/image-photo/redirected-150nw-481342903.jpg">
+            </div>
+            <div v-else-if="text.includes('burrito')">
+                <p>The text includes the word 'burrito', but not 'pizza'</p>
+                <img src="http://carnitasmichoacanva.com/assets/img/menu-home/step-2.png">
+            </div>
+            <p v-else>The words 'pizza' or 'burrito' are not found in the text</p>
+            <button v-on:click="changeString">
+                change food
+            </button>
+        </div>
+        <div v-show="showDiv">This div tag can be hidden</div>
+        <button v-on:click="showDiv = !showDiv">
+            {{ showDiv ? 'Hide div' : 'Show div' }}
+        </button>
+        <div>
+            <p v-for="(x, index) in items" :key="index" v-on:mouseover="increment(index)">
+                {{ index }}: "{{ x }}" <br>
+            </p>
+            <button v-on:click="addItem(items)">
+                add
+            </button>
+            <button v-on:click="removeItem">
+                remove
+            </button>
+        </div>
+        
+        <div v-show="lightOn">Pippo</div>
+
+        <button v-on:mouseover="lightOn=!lightOn">
+            {{ lightOn ? 'Hide pippo' : 'Show pippo' }}
+        </button>
+
+        <p>Move the mouse pointer over the box below</p>
+        <div v-on:mousemove="colorVal=Math.floor(Math.random()*360)"
+             v-bind:style="{backgroundColor:'hsl('+colorVal+',80%,80%)'}">13
+        </div>
+
+        <p>Move the mouse pointer over the box below:</p>
+        <div v-on:mousemove="mousePosition" v-on:mouseleave="showPopup=!showPopup" class="mouseBox"></div>
+
+        <div v-show="showPopup"
+             :style="{ left: xPos + 'px', top: yPos + 'px', position: 'absolute', backgroundColor: 'lightgreen', padding: '10px', borderRadius: '5px' }">
+            X: {{ xPos }}, Y: {{ yPos }}
+        </div>
+        <div>
+            <textarea v-on:input="writeText" placeholder="Start writing.."></textarea>
+            <span>{{ textBind }}</span>
+        </div>
+
+        <div>
+            <img src="https://www.todabiologia.com/uploads/site/alce.jpg">
+            <br />
+            <p>{{ "Moose count: " + mooseCount }}</p>
+            <br />
+            <button v-on:click="addMoose(+1)">+1</button>
+            <button v-on:click="addMoose(+5)">+5</button>
+            <button v-on:click="addMoose(-1)">-1</button>
+        </div>
+
+        <div>
+            <img src="https://cdn.shoptly.com/i/1/12/49/tiger-yawn-qhXd-t.jpg"
+                 id="tiger"
+                 v-on:click="eventParam($event,'Hello')">
+            <img src="https://i.imgflip.com/2/11qjnb.jpg"
+                 id="wolf"
+                 v-on:click="eventParam($event,'Hello')">
+            <p>"{{ msgAndId }}"</p>
+        </div>
+
+        <p>Click the button to create an alert or write s key</p>
+        <button v-on:click.right.prevent.once="creteAlert">Create Alert Once with right mouse button</button>
+
+        <input v-on:keydown="getKey" v-on:keyup.s="alertS">
+        <p> {{ keyValue }} </p>
+
+        <div v-on:click.right.prevent="changeColor"
+             v-bind:style="{backgroundColor:'hsl('+bgColor+',80%,80%)'}">
+            <p>Press right mouse button here.</p>
+        </div>
+        <form v-on:submit.prevent="addItem">
+            <p>Add item</p>
+            <p>Item name: <input type="text" required v-model="itemName"></p>
+            <p>How many: <input type="number" v-model="itemNumber"></p>
+            <p>Important?
+                <label>
+                    <input type="checkbox" v-model="itemImportant">
+                    {{ !itemImportant }}
+                </label>
+            </p>
+            <button type="submit">Add item</button>
+        </form>
+        <p><strong>Shopping list:</strong></p>
+        <ul id="ulToFind">To Find
+            <li v-for="item in importantItems"
+                v-bind:class="{ impClass: item.important }"
+                v-on:click="item.found=!item.found"
+                v-show="!item.found">
+                {{ item.name }}, {{ item.number}}
+            </li>
+        </ul>
+        <ul id="ulFound">Found
+            <li v-for="item in importantItems"
+                v-bind:class="{ impClass: item.important }"
+                v-on:click="item.found=!item.found"
+                v-show="item.found">
+                {{ item.name }}, {{ item.number}}
+            </li>
+        </ul>
+        <input type="text" v-model="inpText">
+        <p> {{ inpText }} </p>
+        <button v-on:click="changeInpText">Magic!</button>
+        <br />
+        <br />
+        <input type="range" v-model="opacityVal">
+        <div v-bind:style="{ backgroundColor: 'rgba(155,20,20,'+opacityVal/100+')' }">
+            Drag the range input above to change opacity here.
+        </div>
+    </div>
+
+    // Inclusione di Vue.js tramite CDN
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    size: 55,
+                    vueClass: "pinkBG",  // Definisce la classe per il div
+                    isImportant: true,
+                    bgVal: 200,
+                    typewritersInStock: 0,
+                    text:"pizza hut",
+                    showDiv: true,
+                    lightOn: true,
+                    items:[5,6,3,2],
+                    colorVal: 50,
+                    xPos: 0,
+                    yPos: 0,
+                    showPopup: false,
+                    textBind:"",
+                    mooseCount:0,
+                    msgAndId:"",
+                    keyValue:"",
+                    bgColor:0,
+                    itemName: null,
+                    itemNumber: null,
+                    itemImportant: false,
+                    shoppingList: [
+                        { name: 'Apple', number: 5, important: true, found: false  },
+                        { name: 'Banana', number: 3, important: false, found: false  },
+                        { name: 'Orange', number: 7, important: true, found: false  },
+                        { name: 'Grapes', number: 4, important: false, found: false  }
+                    ],
+                    inpText: 'Initial text',
+                    opacityVal:0
+                };
+            },
+            computed: {
+            // Computed property per filtrare gli articoli con 'important' === true
+                importantItems() {
+                    return this.shoppingList.filter(item => item.important === true);
+                }
+            },
+            methods: {
+                increment(index) {
+                    // Incrementa il valore dell'elemento all'indice specificato
+                    this.items[index]++;
+                },
+                addItem(){
+                    this.items.push(10);
+                },
+                removeItem(){
+                    this.items.pop();
+                },
+                changeString(){
+                    if(this.text.includes('pizza')){
+                        this.text = this.text.replace('pizza','burrito');
+                    }else if(this.text.includes('burrito')){
+                        this.text = this.text.replace('burrito','pippo');
+                    }else{
+                        this.text = this.text.replace('pippo','pizza');
+                    }
+                },
+                mousePosition(event){
+                    this.xPos = event.pageX;
+                    this.yPos = event.pageY;
+                    this.showPopup = true;
+                },
+                writeText(event) {
+                    this.textBind = event.target.value
+                },
+                addMoose(number){
+                    this.mooseCount+=number;
+                },
+                eventParam(e, msg){
+                    this.msgAndId='';
+                    this.msgAndId+=msg+', ';
+                    this.msgAndId+=e.target.id;
+                },
+                creteAlert(){
+                    alert("Alert created from button click");
+                },
+                alertS(){
+                    alert("Alert created, s typed");
+                },
+                getKey(event) {
+                  this.keyValue = event.key;
+                  console.log(event.key);
+                },
+                changeColor() {
+                    this.bgColor+=50;
+                },
+                addItem() {
+                    let item = {
+                        name: this.itemName,
+                        number: this.itemNumber,
+                        important:this.itemImportant,
+                        found: false
+                    }
+                    this.shoppingList.push(item);
+                    this.itemName = null;
+                    this.itemNumber = null;
+                    this.itemImportant = false;
+                },
+                changeInpText() {
+                    this.inpText='ciao';
+                }
+            }
+        });
+        app.mount('#app');
+    </script>
+}

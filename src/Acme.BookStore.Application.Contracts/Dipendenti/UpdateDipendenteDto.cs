@@ -10,7 +10,15 @@ public class UpdateDipendenteDto
     public string Name { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(DipendenteConsts.MaxNameLength)]
+    public string Surname { get; set; } = string.Empty;
+
+    [Required]
     public DateTime BirthDate { get; set; }
 
-    public string? ShortBio { get; set; }
+    [Required]
+    public DateTime StartDate { get; set; }
+
+    [DataType(DataType.Currency)]
+    public decimal? HourlyRate { get; set; }
 }

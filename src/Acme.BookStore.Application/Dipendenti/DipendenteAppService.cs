@@ -58,8 +58,10 @@ public class DipendenteAppService : BookStoreAppService, IDipendenteAppService
     {
         var dipendente = await _dipendenteManager.CreateAsync(
             input.Name,
+            input.Surname,
             input.BirthDate,
-            input.ShortBio
+            input.StartDate,
+            input.HourlyRate
         );
 
         await _dipendenteRepository.InsertAsync(dipendente);
@@ -77,7 +79,8 @@ public class DipendenteAppService : BookStoreAppService, IDipendenteAppService
         }
 
         dipendente.BirthDate = input.BirthDate;
-        dipendente.ShortBio = input.ShortBio;
+        dipendente.StartDate = input.StartDate;
+        dipendente.HourlyRate = input.HourlyRate;
 
         await _dipendenteRepository.UpdateAsync(dipendente);
     }

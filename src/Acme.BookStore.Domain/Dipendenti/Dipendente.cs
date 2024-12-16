@@ -8,8 +8,10 @@ namespace Acme.BookStore.Dipendenti;
 public class Dipendente : FullAuditedAggregateRoot<Guid>
 {
     public string Name { get; private set; }
+    public string Surname { get; private set; }
     public DateTime BirthDate { get; set; }
-    public string ShortBio { get; set; }
+    public DateTime StartDate { get; set; }
+    public decimal? HourlyRate { get; set; }
 
     private Dipendente()
     {
@@ -19,18 +21,27 @@ public class Dipendente : FullAuditedAggregateRoot<Guid>
     internal Dipendente(
         Guid id,
         string name,
+        string surname,
         DateTime birthDate,
-        string? shortBio = null)
+        DateTime startDate,
+        decimal? hourlyRate)
         : base(id)
     {
         SetName(name);
+        SetSurname(surname);
         BirthDate = birthDate;
-        ShortBio = shortBio;
+        StartDate = startDate;
+        HourlyRate = hourlyRate;
     }
 
     internal Dipendente ChangeName(string name)
     {
         SetName(name);
+        return this;
+    }
+    internal Dipendente ChangeSurname(string surname)
+    {
+        SetSurname(surname);
         return this;
     }
 
@@ -39,6 +50,14 @@ public class Dipendente : FullAuditedAggregateRoot<Guid>
         Name = Check.NotNullOrWhiteSpace(
             name,
             nameof(name),
+            maxLength: DipendenteConsts.MaxNameLength
+        );
+    }
+    private void SetSurname(string surname)
+    {
+        Surname = Check.NotNullOrWhiteSpace(
+            surname,
+            nameof(surname),
             maxLength: DipendenteConsts.MaxNameLength
         );
     }

@@ -25,6 +25,11 @@ public class EfCoreDipendenteRepository
         var dbSet = await GetDbSetAsync();
         return await dbSet.FirstOrDefaultAsync(dipendente => dipendente.Name == name);
     }
+    public async Task<Dipendente> FindBySurnameAsync(string surname)
+    {
+        var dbSet = await GetDbSetAsync();
+        return await dbSet.FirstOrDefaultAsync(dipendente => dipendente.Surname == surname);
+    }
 
     public async Task<List<Dipendente>> GetListAsync(
         int skipCount,

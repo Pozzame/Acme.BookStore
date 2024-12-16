@@ -147,12 +147,12 @@ public class BookStoreWebModule : AbpModule
         {
             options.IsDynamicPermissionStoreEnabled = true;
         });
-        Configure<RazorPagesOptions>(options =>
-        {
-            options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
-            options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
-            options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
-        });
+        //Configure<RazorPagesOptions>(options =>
+        //{
+        //    options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
+        //    options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
+        //    options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
+        //});
 
     }
 

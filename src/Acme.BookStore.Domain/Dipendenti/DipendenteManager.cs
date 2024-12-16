@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Acme.BookStore.Authors;
-using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 
@@ -18,8 +16,10 @@ public class DipendenteManager : DomainService
 
     public async Task<Dipendente> CreateAsync(
         string name,
+        string surname,
         DateTime birthDate,
-        string? shortBio = null)
+        DateTime startDate,
+        decimal? hourlyRate)
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
 
@@ -32,8 +32,10 @@ public class DipendenteManager : DomainService
         return new Dipendente(
             GuidGenerator.Create(),
             name,
+            surname,
             birthDate,
-            shortBio
+            startDate,
+            hourlyRate
         );
     }
 
@@ -51,5 +53,20 @@ public class DipendenteManager : DomainService
         }
 
         dipendente.ChangeName(newName);
+    }
+    public async Task ChangeSurnameAsync(
+        Dipendente dipendente,
+        string newSurname)
+    {
+        Check.NotNull(dipendente, nameof(dipendente));
+        Check.NotNullOrWhiteSpace(newSurname, nameof(newSurname));
+
+        var existingDipendente = await _dipendenteRepository.FindBySurnameAsync(newSurname);
+        if (existingDipendente != null && existingDipendente.Id != dipendente.Id)
+        {
+            throw new DipendenteAlreadyExistsException(newSurname);
+        }
+
+        dipendente.ChangeSurname(newSurname);
     }
 }
