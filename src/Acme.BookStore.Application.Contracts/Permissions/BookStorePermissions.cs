@@ -16,4 +16,18 @@ public static class BookStorePermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class Clienti
+    {
+        public const string Default = GroupName + ".Clienti";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
+    public static class Commesse
+    {
+        public const string Default = GroupName + ".Commesse";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }

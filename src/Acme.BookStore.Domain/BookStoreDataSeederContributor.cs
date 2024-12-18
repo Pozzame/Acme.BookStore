@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Acme.BookStore.Clienti;
+using Acme.BookStore.Commesse;
 using Acme.BookStore.Dipendenti;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -12,31 +15,24 @@ public class BookStoreDataSeederContributor
 {
     private readonly IDipendenteRepository _dipendenteRepository;
     private readonly DipendenteManager _dipendenteManager;
-    private readonly IDipendenteRepository _clienteRepository;
-    private readonly DipendenteManager _clienteManager;
-    private readonly IDipendenteRepository _commessaRepository;
-    private readonly DipendenteManager _commessaManager;
+    private readonly IRepository<Cliente, Guid> _clienteRepository;
+    private readonly IRepository<Commessa, Guid> _commessaRepository;
 
     public BookStoreDataSeederContributor(
         IDipendenteRepository dipendenteRepository,
         DipendenteManager dipendenteManager,
-        IDipendenteRepository clienteRepository,
-        DipendenteManager clienteManager,
-        IDipendenteRepository commessaRepository,
-        DipendenteManager commessaManager)
+        IRepository<Cliente, Guid> clienteRepository,
+        IRepository<Commessa, Guid> commessaRepository)
     {
-        _dipendenteRepository = dipendenteRepository;
         _dipendenteManager = dipendenteManager;
-
+        _dipendenteRepository = dipendenteRepository;
         _commessaRepository = commessaRepository;
-        _commessaManager = commessaManager;
         _clienteRepository = clienteRepository;
-        _clienteManager = clienteManager;
     }
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        if (await _dipendenteRepository.GetCountAsync() < 1)
+        if (await _dipendenteRepository.GetCountAsync() <= 0)
         {
             var ciuccio = await _dipendenteRepository.InsertAsync(
                 await _dipendenteManager.CreateAsync(
@@ -58,47 +54,49 @@ public class BookStoreDataSeederContributor
             );
         }
 
-        if (await _clienteRepository.GetCountAsync() < 1)
+        if (await _clienteRepository.GetCountAsync() <= 0)
         {
-            var ciuccio = await _clienteRepository.InsertAsync(
-                await _clienteManager.CreateAsync(
-                    "Ciuccio",
-                    "Ciuccione",
-                    new DateTime(1992, 03, 11),
-                    new DateTime(2012, 03, 11),
-                    10
-                )
+           await _clienteRepository.InsertAsync(
+                new Cliente
+                {
+                    Name = "Syntia",
+                    CommesseId = new List<Guid>()
+                },
+            autoSave: true
             );
-            var antani = await _clienteRepository.InsertAsync(
-                await _clienteManager.CreateAsync(
-                    "Antani",
-                    "Pisquano",
-                    new DateTime(1992, 03, 11),
-                    new DateTime(2012, 03, 11),
-                    12
-                )
+            await _clienteRepository.InsertAsync(
+                new Cliente
+                {
+                    Name = "ASTS",
+                    CommesseId = new List<Guid>()
+                },
+            autoSave: true
             );
         }
 
-        if (await _commessaRepository.GetCountAsync() < 1)
+        if (await _commessaRepository.GetCountAsync() <= 0)
         {
-            var ciuccio = await _dipendenteRepository.InsertAsync(
-                await _dipendenteManager.CreateAsync(
-                    "Ciuccio",
-                    "Ciuccione",
-                    new DateTime(1992, 03, 11),
-                    new DateTime(2012, 03, 11),
-                    10
-                )
-            );
-            var antani = await _dipendenteRepository.InsertAsync(
-                await _dipendenteManager.CreateAsync(
-                    "Antani",
-                    "Pisquano",
-                    new DateTime(1992, 03, 11),
-                    new DateTime(2012, 03, 11),
-                    12
-                )
+            await _commessaRepository.InsertAsync(
+                new Commessa
+                {
+                    Nome = "ASTS",
+                    Tipologia = Tipologia.AProgetto,
+                    Totale = 0,
+                    Dipendenti = new List<Guid>(),
+                    IsActive = false
+                },
+                autoSave: true
+                );
+            await _commessaRepository.InsertAsync(
+                new Commessa
+                {
+                    Nome = "Cuccelleria",
+                    Tipologia = Tipologia.AProgetto,
+                    Totale = 0,
+                    Dipendenti = new List<Guid>(),
+                    IsActive = true
+                },
+                autoSave: true
             );
         }
     }

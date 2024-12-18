@@ -153,6 +153,20 @@ public class BookStoreWebModule : AbpModule
         //    options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
         //    options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
         //});
+        Configure<RazorPagesOptions>(options =>
+        {
+            options.Conventions.AuthorizePage("/Clienti/Index", BookStorePermissions.Clienti.Default);
+            options.Conventions.AuthorizePage("/Clienti/CreateModal", BookStorePermissions.Clienti.Create);
+            options.Conventions.AuthorizePage("/Clienti/EditModal", BookStorePermissions.Clienti.Edit);
+        });
+
+        Configure<RazorPagesOptions>(options =>
+        {
+            options.Conventions.AuthorizePage("/Commesse/Index", BookStorePermissions.Commesse.Default);
+            options.Conventions.AuthorizePage("/Commesse/CreateModal", BookStorePermissions.Commesse.Create);
+            options.Conventions.AuthorizePage("/Commesse/EditModal", BookStorePermissions.Commesse.Edit);
+        });
+
 
     }
 

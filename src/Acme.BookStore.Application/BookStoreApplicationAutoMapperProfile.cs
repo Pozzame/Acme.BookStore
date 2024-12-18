@@ -1,4 +1,6 @@
 
+using Acme.BookStore.Clienti;
+using Acme.BookStore.Commesse;
 using Acme.BookStore.Dipendenti;
 using AutoMapper;
 
@@ -12,5 +14,9 @@ public class BookStoreApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
         CreateMap<Dipendente, DipendenteDto>();
+        CreateMap<Cliente, ClienteDto>();
+        CreateMap<Commessa, CommessaDto>();
+        CreateMap<CreateUpdateClienteDto, Cliente>();
+        CreateMap<CreateUpdateCommessaDto, Commessa>();
     }
 }

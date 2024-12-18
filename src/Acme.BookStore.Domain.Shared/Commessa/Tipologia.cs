@@ -3,6 +3,7 @@
     public enum Tipologia
     {
         AProgetto,
-        TimeAndMaterial
+        TimeAndMaterial,
+        Indefinito
     }
 }

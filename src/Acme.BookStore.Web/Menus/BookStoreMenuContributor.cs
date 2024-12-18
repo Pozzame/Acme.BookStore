@@ -71,6 +71,18 @@ public class BookStoreMenuContributor : IMenuContributor
                 ).RequirePermissions(BookStorePermissions.Dipendenti.Default)
             ).AddItem(
                 new ApplicationMenuItem(
+                    "BooksStore.Clienti",
+                    l["Clienti"],
+                    url: "/Clienti"
+                ).RequirePermissions(BookStorePermissions.Clienti.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "BooksStore.Commesse",
+                    l["Commesse"],
+                    url: "/Commesse"
+                ).RequirePermissions(BookStorePermissions.Clienti.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
                     "vtable",
                     l["vtable"],
                     url: "/vtable"

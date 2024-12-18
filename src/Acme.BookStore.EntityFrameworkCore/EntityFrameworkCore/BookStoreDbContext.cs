@@ -33,7 +33,7 @@ public class BookStoreDbContext :
     public DbSet<Dipendente> Dipendenti { get; set; }
     public DbSet<Commessa> Commesse { get; set; }
     public DbSet<Cliente> Clienti { get; set; }
-    public DbSet<DipendenteCommessa> DipendenteCommessas { get; set; }
+    public DbSet<DipendenteCommessa> DipendenteCommessa { get; set; }
 
 
     #region Entities from the modules
@@ -119,7 +119,7 @@ public class BookStoreDbContext :
 
         builder.Entity<Cliente>(b =>
         {
-            b.ToTable(BookStoreConsts.DbTablePrefix + "Customers", BookStoreConsts.DbSchema);
+            b.ToTable(BookStoreConsts.DbTablePrefix + "Cliente", BookStoreConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
             //b.Property(x => x.Email).IsRequired().HasMaxLength(128);
@@ -127,7 +127,7 @@ public class BookStoreDbContext :
 
         builder.Entity<Commessa>(b =>
         {
-            b.ToTable(BookStoreConsts.DbTablePrefix + "Commissions", BookStoreConsts.DbSchema);
+            b.ToTable(BookStoreConsts.DbTablePrefix + "Commessa", BookStoreConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.Nome).IsRequired().HasMaxLength(128);
             b.Property(x => x.Tipologia).IsRequired();
