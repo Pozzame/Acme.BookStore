@@ -15,6 +15,8 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Acme.BookStore.Dipendenti;
+using Acme.BookStore.Commesse;
+using Acme.BookStore.Clienti;
 
 namespace Acme.BookStore.EntityFrameworkCore;
 
@@ -29,6 +31,9 @@ public class BookStoreDbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     
     public DbSet<Dipendente> Dipendenti { get; set; }
+    public DbSet<Commessa> Commesse { get; set; }
+    public DbSet<Cliente> Clienti { get; set; }
+    public DbSet<DipendenteCommessa> DipendenteCommessas { get; set; }
 
 
     #region Entities from the modules
@@ -90,8 +95,8 @@ public class BookStoreDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
-        
-        
+
+
         builder.Entity<Dipendente>(b =>
         {
             b.ToTable(BookStoreConsts.DbTablePrefix + "Dipendenti",
@@ -104,6 +109,51 @@ public class BookStoreDbContext :
                 .HasMaxLength(DipendenteConsts.MaxNameLength);
 
             b.HasIndex(x => x.Name);
+
+            b.Property(x => x.Surname).IsRequired().HasMaxLength(DipendenteConsts.MaxNameLength);
+            //b.Property(x => x.Email).IsRequired().HasMaxLength(128);
+
+
+
+        });
+
+        builder.Entity<Cliente>(b =>
+        {
+            b.ToTable(BookStoreConsts.DbTablePrefix + "Customers", BookStoreConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+            //b.Property(x => x.Email).IsRequired().HasMaxLength(128);
+        });
+
+        builder.Entity<Commessa>(b =>
+        {
+            b.ToTable(BookStoreConsts.DbTablePrefix + "Commissions", BookStoreConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Nome).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Tipologia).IsRequired();
+            b.Property(x => x.Cliente).IsRequired();
+        });
+
+        builder.Entity<DipendenteCommessa>(b =>
+        {
+            b.ToTable(BookStoreConsts.DbTablePrefix + "DipendentiCommesse", BookStoreConsts.DbSchema);
+
+            b.HasKey(ec => new { ec.DipendenteId, ec.CommessaId });
+
+            b.HasIndex(pc => pc.DipendenteId);
+            b.HasIndex(pc => pc.CommessaId);
+
+            b.HasOne<Dipendente>()
+                .WithMany()
+                .HasForeignKey(pc => pc.DipendenteId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne<Commessa>()
+                .WithMany()
+                .HasForeignKey(pc => pc.CommessaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.Property(pc => pc.Ruolo).IsRequired();
         });
     }
 }
