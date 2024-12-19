@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Acme.BookStore.Commesse;
 using Acme.BookStore.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Acme.BookStore.Dipendenti;
 
@@ -13,21 +16,46 @@ namespace Acme.BookStore.Dipendenti;
 public class DipendenteAppService : BookStoreAppService, IDipendenteAppService
 {
     private readonly IDipendenteRepository _dipendenteRepository;
+    private readonly IRepository<DipendenteCommessa, Guid> _dipendenteCommessaRepository;
+    private readonly IRepository<Commessa, Guid> _commessaRepository;
     private readonly DipendenteManager _dipendenteManager;
 
     public DipendenteAppService(
         IDipendenteRepository dipendenteRepository,
-        DipendenteManager dipendenteManager)
+        DipendenteManager dipendenteManager,
+        IRepository<DipendenteCommessa, Guid> dipendenteCommessaRepository, 
+        IRepository<Commessa, Guid> commessaRepository)
     {
         _dipendenteRepository = dipendenteRepository;
         _dipendenteManager = dipendenteManager;
+        _dipendenteCommessaRepository = dipendenteCommessaRepository;
+        _commessaRepository = commessaRepository;
     }
 
     //...SERVICE METHODS WILL COME HERE...
     public async Task<DipendenteDto> GetAsync(Guid id)
     {
-        var dipendente = await _dipendenteRepository.GetAsync(id);
-        return ObjectMapper.Map<Dipendente, DipendenteDto>(dipendente);
+        // Otteniamo il dipendente e lo mappiamo al DTO
+        Dipendente dipendente = await _dipendenteRepository.GetAsync(id);
+        DipendenteDto dipendenteDto = ObjectMapper.Map<Dipendente, DipendenteDto>(dipendente);
+
+        // Otteniamo gli IQueryable in modo asincrono
+        var dipendenteCommessaQueryable = await _dipendenteCommessaRepository.GetQueryableAsync();
+        var commessaQueryable = await _commessaRepository.GetQueryableAsync();
+
+        // Costruiamo la query e la eseguiamo usando i metodi di ABP
+        dipendenteDto.Commesse = (await dipendenteCommessaQueryable
+            .Where(dc => dc.DipendenteId == id)
+            .Join(
+                commessaQueryable,
+                dc => dc.CommessaId,
+                c => c.Id,
+                (dc, c) => c.Nome
+            )
+            .ToListAsync())  // Questo ToListAsync viene da System.Linq
+            .ToList();       // Convertiamo il risultato in List<string>
+        Console.WriteLine(dipendenteDto);
+        return dipendenteDto;
     }
     public async Task<PagedResultDto<DipendenteDto>> GetListAsync(GetDipendenteListDto input)
     {
@@ -48,9 +76,27 @@ public class DipendenteAppService : BookStoreAppService, IDipendenteAppService
             : await _dipendenteRepository.CountAsync(
                 dipendente => dipendente.Name.Contains(input.Filter));
 
+        List<DipendenteDto> dipendentiDto = ObjectMapper.Map<List<Dipendente>, List<DipendenteDto>>(dipendenti);
+
+        var dipendenteCommessaQueryable = await _dipendenteCommessaRepository.GetQueryableAsync();
+        var commessaQueryable = await _commessaRepository.GetQueryableAsync();
+
+        foreach (DipendenteDto dipendenteDto in dipendentiDto) {
+            dipendenteDto.Commesse = (await dipendenteCommessaQueryable
+            .Where(dc => dc.DipendenteId == dipendenteDto.Id)
+            .Join(
+                commessaQueryable,
+                dc => dc.CommessaId,
+                c => c.Id,
+                (dc, c) => c.Nome
+            )
+            .ToListAsync())  // Questo ToListAsync viene da System.Linq
+            .ToList();       // Convertiamo il risultato in List<string>
+        }
+
         return new PagedResultDto<DipendenteDto>(
             totalCount,
-            ObjectMapper.Map<List<Dipendente>, List<DipendenteDto>>(dipendenti)
+            dipendentiDto
         );
     }
     [Authorize(BookStorePermissions.Dipendenti.Create)]
@@ -89,5 +135,4 @@ public class DipendenteAppService : BookStoreAppService, IDipendenteAppService
     {
         await _dipendenteRepository.DeleteAsync(id);
     }
-
 }

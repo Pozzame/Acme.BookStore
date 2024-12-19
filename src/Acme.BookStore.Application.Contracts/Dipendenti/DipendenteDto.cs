@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Application.Dtos;
 
@@ -14,5 +15,6 @@ public class DipendenteDto : EntityDto<Guid>
     public DateTime StartDate { get; set; }
 
     //[DataType(DataType.Currency)]
-    public decimal? HourlyRate { get; set; }
+    public decimal HourlyRate { get; set; }
+    public List<string>? Commesse { get; set; }
 }

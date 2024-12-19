@@ -14,7 +14,7 @@ namespace Acme.BookStore.Commesse
         //public PianoDiFatturazione Piano{ get; set; }
         public Guid Cliente { get; set; }
         public decimal Totale { get; set; }
-        public List<Guid> Dipendenti { get; set; }
+        //public List<Guid>? Dipendenti { get; set; }
         public bool IsActive { get; set; }
 
     }

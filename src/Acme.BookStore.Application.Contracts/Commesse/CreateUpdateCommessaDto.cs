@@ -18,8 +18,8 @@ public class CreateUpdateCommessaDto
 
     [Required]
     public decimal Totale { get; set; }
-    [Required]
-    public List<Guid> Dipendenti { get; set; }
+    //[Required]
+    //public List<Guid>? Dipendenti { get; set; }
     [Required]
     public bool IsActive { get; set; }
 }

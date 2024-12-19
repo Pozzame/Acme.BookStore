@@ -1,0 +1,24 @@
+﻿@page
+@using Acme.BookStore.Localization
+@using Acme.BookStore.Web.Pages.Commesse
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model CreateModalModel
+@inject IStringLocalizer<BookStoreResource> L
+@{
+    Layout = null;
+}
+<form asp-page="/Clienti/CreateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["NewCommessa"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-input asp-for="Commessa.Nome" />
+            <abp-input asp-for="Commessa.Tipologia" />
+            <abp-input asp-for="Commessa.Cliente" />
+            <abp-input asp-for="Commessa.Totale" />
+            @* <abp-input asp-for="Commessa.Dipendenti" /> *@
+            <abp-input asp-for="Commessa.IsActive" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

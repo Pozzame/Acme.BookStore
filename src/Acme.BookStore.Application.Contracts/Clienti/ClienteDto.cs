@@ -7,5 +7,5 @@ namespace Acme.BookStore.Clienti;
 public class ClienteDto : AuditedEntityDto<Guid>
 {
     public string Name { get; set; }
-    public List<Guid> CommesseId { get; set; }
+    public List<string>? Commesse { get; set; }
 }

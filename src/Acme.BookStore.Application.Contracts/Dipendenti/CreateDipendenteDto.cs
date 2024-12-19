@@ -19,5 +19,5 @@ public class CreateDipendenteDto
     public DateTime StartDate { get; set; }
 
     //[DataType(DataType.Currency)]
-    public decimal? HourlyRate { get; set; }
+    public decimal HourlyRate { get; set; }
 }
