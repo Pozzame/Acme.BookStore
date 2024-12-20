@@ -6,20 +6,17 @@ namespace Acme.BookStore.Commesse;
 
 public class CreateUpdateCommessaDto
 {
-    [Required]
-    [StringLength(128)]
-    public string Nome { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Il nome della commessa è obbligatorio")]
+    public string Nome { get; set; }
 
-    [Required]
-    public Tipologia Tipologia { get; set; } = Tipologia.Indefinito;
+    [Required(ErrorMessage = "La tipologia è obbligatoria")]
+    public Tipologia Tipologia { get; set; }
 
-    [Required]
-    public Guid Cliente { get; set; }
+    [Required(ErrorMessage = "Il cliente è obbligatorio")]
+    public Guid ClienteId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Il totale è obbligatorio")]
     public decimal Totale { get; set; }
-    //[Required]
-    //public List<Guid>? Dipendenti { get; set; }
-    [Required]
+
     public bool IsActive { get; set; }
 }

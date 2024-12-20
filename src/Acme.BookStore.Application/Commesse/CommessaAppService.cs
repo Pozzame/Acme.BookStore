@@ -61,4 +61,18 @@ public class CommessaAppService :
             commesseDto
         );
     }
+    //public override async Task<CommessaDto> CreateAsync(CreateUpdateCommessaDto input)
+    //{
+    //    try
+    //    {
+    //        var commessa = await base.CreateAsync(input);
+    //        return commessa;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // Log l'eccezione o gestiscila come preferisci
+    //        Console.WriteLine("Assorreta" + ex.Message);
+    //        throw;
+    //    }
+    //}
 }

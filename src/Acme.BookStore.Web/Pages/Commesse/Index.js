@@ -1,7 +1,7 @@
 ﻿$(function () {
     var l = abp.localization.getResource('BookStore');
     var createModal = new abp.ModalManager(abp.appPath + 'Commesse/CreateModal');
-    var editModal = new abp.ModalManager(abp.appPath + 'v/EditModal');
+    var editModal = new abp.ModalManager(abp.appPath + 'Commesse/EditModal');
 
     var dataTable = $('#CommesseTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({

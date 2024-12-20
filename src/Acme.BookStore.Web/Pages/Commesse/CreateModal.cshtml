@@ -3,18 +3,24 @@
 @using Acme.BookStore.Web.Pages.Commesse
 @using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Acme.BookStore.Commesse
 @model CreateModalModel
 @inject IStringLocalizer<BookStoreResource> L
 @{
     Layout = null;
 }
-<form asp-page="/Clienti/CreateModal">
+<form asp-page="/Commesse/CreateModal">
     <abp-modal>
         <abp-modal-header title="@L["NewCommessa"].Value"></abp-modal-header>
         <abp-modal-body>
             <abp-input asp-for="Commessa.Nome" />
-            <abp-input asp-for="Commessa.Tipologia" />
-            <abp-input asp-for="Commessa.Cliente" />
+            <abp-select asp-for="Commessa.Tipologia"
+                        asp-items="@Html.GetEnumSelectList<Tipologia>()"
+                        label="@L["Tipologia"].Value" />
+
+            <abp-select asp-for="Commessa.ClienteId"
+                        asp-items="@Model.ClienteList"
+                        label="@L["Cliente"].Value" />
             <abp-input asp-for="Commessa.Totale" />
             @* <abp-input asp-for="Commessa.Dipendenti" /> *@
             <abp-input asp-for="Commessa.IsActive" />

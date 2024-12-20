@@ -15,7 +15,8 @@ public class BookStoreApplicationAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
         CreateMap<Dipendente, DipendenteDto>();
         CreateMap<Cliente, ClienteDto>();
-        CreateMap<Commessa, CommessaDto>();
+        CreateMap<Commessa, CommessaDto>()
+            .ForMember(dest => dest.Cliente, opt => opt.Ignore()); // Ignoriamo Cliente perché lo gestiamo separatamente
         CreateMap<CreateUpdateClienteDto, Cliente>();
         CreateMap<CreateUpdateCommessaDto, Commessa>();
     }
