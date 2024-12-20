@@ -63,7 +63,7 @@ public class BookStoreDataSeederContributor
                 new Cliente
                 {
                     Name = "Syntia",
-                    CommesseId = new List<Guid>()
+                    //CommesseId = new List<Guid> { Guid.Parse("6322a357-bb7b-4e8a-fd0f-3a16f283ece8") }
                 },
             autoSave: true
             );
@@ -71,7 +71,7 @@ public class BookStoreDataSeederContributor
                 new Cliente
                 {
                     Name = "ASTS",
-                    CommesseId = new List<Guid>()
+                    //CommesseId = new List<Guid>()
                 },
             autoSave: true
             );
@@ -82,8 +82,9 @@ public class BookStoreDataSeederContributor
             await _commessaRepository.InsertAsync(
                 new Commessa
                 {
-                    Nome = "ASTS",
+                    Nome = "Ferrovia",
                     Tipologia = Tipologia.AProgetto,
+                    ClienteId = Guid.Parse("78136bc9-7630-8663-fe24-3a16f3d35e8e"),
                     Totale = 0,
                     IsActive = false
                 },
@@ -106,8 +107,8 @@ public class BookStoreDataSeederContributor
             await _dipendenteCommessaRepository.InsertAsync(
                 new DipendenteCommessa
                 {
-                    DipendenteId = Guid.Parse("b34e7e2a-ba13-2a11-a276-3a16f1779bbb"),
-                    CommessaId = Guid.Parse("c819e79e-3f09-af09-8595-3a16f1779c32"),
+                    DipendenteId = Guid.Parse("b9c39ac9-3c89-efbd-0c88-3a16f3d35e6e"),
+                    CommessaId = Guid.Parse("9150b291-05b9-cb4a-56ce-3a16f3d534b3"),
                     Ruolo = 0,
                     MonteOre = 100
                 },

@@ -11,7 +11,9 @@ public class CommessaDto : AuditedEntityDto<Guid>
 
     public Tipologia Tipologia { get; set; }
 
-    public Guid Cliente { get; set; }
+    public string Cliente { get; set; }
+    public Guid ClienteId { get; set; }
+
     public decimal Totale { get; set; }
     //public List<Guid>? Dipendenti { get; set; }
     public bool IsActive { get; set; }

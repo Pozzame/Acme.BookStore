@@ -10,6 +10,6 @@ namespace Acme.BookStore.Clienti
     public class Cliente : FullAuditedAggregateRoot<Guid>
     {
         public string Name { get; set; }
-        public List<Guid>? CommesseId { get; set; }
+        //public List<Guid>? CommesseId { get; set; }
     }
 }

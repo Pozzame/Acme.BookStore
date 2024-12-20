@@ -10,7 +10,7 @@
             order: [[1, "asc"]],
             searching: false,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(acme.bookStore.clienti.cliente.getList),
+            ajax: abp.libs.datatables.createAjax(acme.bookStore.clienti.cliente.getFullList),
             columnDefs: [
                 {
                     title: l('Actions'),
@@ -54,12 +54,13 @@
                     data: "name"
                 },
                 {
-                    title: l('CommesseId'),
-                    data: "commesseId"
+                    title: l('Commesse'),
+                    data: "commesse"
                 }
             ]
         })
     );
+    //console.log(dataTable);
 
     createModal.onResult(function () {
         dataTable.ajax.reload();

@@ -19,7 +19,8 @@
                 <abp-card-title>@L["Clienti"]</abp-card-title>
             </abp-column>
             <abp-column size-md="_6" class="text-end">
-                @if (await AuthorizationService.IsGrantedAsync(BookStorePermissions.Clienti.Create))
+                @if (await AuthorizationService.
+                IsGrantedAsync(BookStorePermissions.Clienti.Create))
                 {
                     <abp-button id="NewClienteButton"
                                 text="@L["NewCliente"].Value"

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Acme.BookStore.Commesse;
 using Acme.BookStore.Dipendenti;
 using Acme.BookStore.Permissions;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectMapping;
 
 namespace Acme.BookStore.Clienti;
 
@@ -20,7 +23,7 @@ public class ClienteAppService :
     IClienteAppService //implement the IBookAppService
 {
     private readonly IRepository<Commessa, Guid> _commessaRepository;
-    public ClienteAppService(IRepository<Cliente, Guid> repository, 
+    public ClienteAppService(IRepository<Cliente, Guid> repository,
         IRepository<Commessa, Guid> commessaRepository)
         : base(repository)
     {
@@ -33,40 +36,51 @@ public class ClienteAppService :
         DeletePolicyName = BookStorePermissions.Clienti.Delete;
     }
 
-    public async Task<PagedResultDto<ClienteDto>> GetListAsync(GetClienteListDto input)
+    public async Task<PagedResultDto<ClienteDto>> GetFullListAsync(GetClienteListDto input)
     {
         if (input.Sorting.IsNullOrWhiteSpace())
         {
             input.Sorting = nameof(Cliente.Name);
         }
 
-        var dipendenti = await repository.GetListAsync(
-            input.SkipCount,
-            input.MaxResultCount,
-            input.Sorting,
-        input.Filter
+        var clienti = await Repository.GetListAsync(
+            //input.SkipCount,
+            //input.MaxResultCount,
+            //input.Sorting,
+            //input.Filter
         );
+
+
+        //var queryable = await Repository.GetQueryableAsync();
+
+        //var clienti = await AsyncExecuter.ToListAsync(
+        //    queryable
+        //        .WhereIf(!input.Filter.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Filter))
+        //        .OrderBy(x => EF.Property<object>(x, input.Sorting))
+        //        .Skip(input.SkipCount)
+        //        .Take(input.MaxResultCount)
+        //);
+
         var totalCount = input.Filter == null
-            ? await _dipendenteRepository.CountAsync()
-            : await _dipendenteRepository.CountAsync(
-                dipendente => dipendente.Name.Contains(input.Filter));
+            ? await Repository.CountAsync()
+            : await Repository.CountAsync(
+                cliente => cliente.Name.Contains(input.Filter));
 
-        List<DipendenteDto> dipendentiDto = ObjectMapper.Map<List<Dipendente>, List<DipendenteDto>>(dipendenti);
+        List<ClienteDto> clientiDto = ObjectMapper.Map<List<Cliente>, List<ClienteDto>>(clienti);
 
-        var dipendenteCommessaQueryable = await _dipendenteCommessaRepository.GetQueryableAsync();
-        var commessaQueryable = await _commessaRepository.GetQueryableAsync();
-
-        foreach (DipendenteDto dipendenteDto in dipendentiDto)
+        IQueryable<Commessa> commesseQueryable = await _commessaRepository.GetQueryableAsync();
+        
+        foreach (ClienteDto clienteDto in clientiDto)
         {
-            dipendenteDto.Commesse = (await dipendenteCommessaQueryable
-            .Where(dc => dc.DipendenteId == dipendenteDto.Id)
-            .Join(
-                commessaQueryable,
-                dc => dc.CommessaId,
-                c => c.Id,
-                (dc, c) => c.Nome
-            )
-            .ToListAsync())  // Questo ToListAsync viene da System.Linq
-            .ToList();       // Convertiamo il risultato in List<string>
+            clienteDto.Commesse = await commesseQueryable
+                .Where(c => c.ClienteId == clienteDto.Id)
+                .Select(c => c.Nome)  // Questo seleziona direttamente il nome
+                .ToListAsync();
         }
+
+        return new PagedResultDto<ClienteDto>(
+            totalCount,
+            clientiDto
+        );
     }
+}

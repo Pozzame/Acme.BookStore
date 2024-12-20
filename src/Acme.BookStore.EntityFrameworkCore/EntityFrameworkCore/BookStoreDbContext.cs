@@ -131,7 +131,7 @@ public class BookStoreDbContext :
             b.ConfigureByConvention();
             b.Property(x => x.Nome).IsRequired().HasMaxLength(128);
             b.Property(x => x.Tipologia).IsRequired();
-            b.Property(x => x.Cliente).IsRequired();
+            b.Property(x => x.ClienteId).IsRequired();
         });
 
         builder.Entity<DipendenteCommessa>(b =>

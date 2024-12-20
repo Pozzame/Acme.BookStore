@@ -10,7 +10,7 @@
             order: [[1, "asc"]],
             searching: false,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(acme.bookStore.commesse.commessa.getList),
+            ajax: abp.libs.datatables.createAjax(acme.bookStore.commesse.commessa.getFullList),
             columnDefs: [
                 {
                     title: l('Actions'),
