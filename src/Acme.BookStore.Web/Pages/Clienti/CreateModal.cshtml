@@ -13,7 +13,7 @@
         <abp-modal-header title="@L["NewCliente"].Value"></abp-modal-header>
         <abp-modal-body>
             <abp-input asp-for="Cliente.Name" />
-            <abp-input asp-for="Cliente.CommesseId" />
+            @* <abp-input asp-for="Cliente.CommesseId" /> *@
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
